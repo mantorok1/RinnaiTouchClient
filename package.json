@@ -1,0 +1,22 @@
+{
+  "name": "rinnai-touch-client",
+  "version": "1.0.1",
+  "description": "Client for controlling Rinnai Touch Module",
+  "main": "RinnaiTouchClient.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mantorok1/RinnaiTouchClient.git"
+  },
+  "keywords": [
+    "Rinnai"
+  ],
+  "author": "David Matthews",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mantorok1/RinnaiTouchClient/issues"
+  },
+  "homepage": "https://github.com/mantorok1/RinnaiTouchClient#readme"
+}

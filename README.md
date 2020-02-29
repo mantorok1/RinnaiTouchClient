@@ -32,7 +32,7 @@ The TCP connection to the Module
  - **error**
  Emitted when an error occurs. Includes error object
  - **statusChanged**
- Emitted when the Module's status has changed. Includes current status.
+ Emitted when the Module's status has changed. Includes status as json string.
  - **commandSent**
  Emitted when a command has been sent successfully.
 
@@ -41,7 +41,7 @@ Commands to be sent to the Module must be in the following format:
 
     {key: "value"}     eg. {Mode: "Cool"}
 
-The following is a list of all the command keys as their allowed values.
+The following is a list of all the command keys and their allowed values.
 |Key|Description|Values|
 |--|--|--|
 |Mode|Sets the system mode|Heat, Cool, Evap|
@@ -71,6 +71,11 @@ The following is a list of all the command keys as their allowed values.
 
 
 # How to use
+To use the RinnaiTouchClient class in your own app/project include it with the require function. eg.
+
+    var RinnaiTouchClient = require('./RinnaiTouchClient');
+
+The class supports both callbacks and events.
 
 Callback example - Set Rinnai to "Cooling" mode:
 
@@ -92,23 +97,56 @@ Event example - Set Rinnai to "Heating" mode:
 
 # Files
 
+### Core Library
+
+The Core Library contains the classes required to connect to and control the Rinnai Touch Module
+
  - **RinnaiTouchClient.js**
 Contains the main class for connecting to the Module. It controls the connection as well as receiving status and sending commands.
-Required.
  - **RinnaiTouchUdpConnection.js**
 A helper class used to obtain the IP address and port of the Module.
-Required.
 - **RinnaiTouchTcpConnection.js**
 A helper class used to manage the TCP connection to the Module.
-Required.
+
+### Demo - Simple Command Line tool
+
 - **Rinnai.js**
-A sample command line tool that can display the current status of the Module or send a command.
-No required.
+This Rinnai command line tool allows you to return the status and send commands to a Rinnai Touch Module from the command prompt.
 
-To use the command line tool to retrieve the Module status execute without any parameters:
+Command line format:
 
-    > node Rinnai 
+ 
 
-To send a command to the Module supply a command key and value:
+    > node Rinnai [key value]
+
+eg. To use the command line tool to retrieve the Module status execute without any parameters:
+
+    > node Rinnai
+    Connected: 192.168.1.3:27847
+    [{"SYST": {"CFG": {"MTSP": "N", "NC": "00", "DF": "N", "TU": "C", "CF": "1", "VR": "0183", "CV": "0010", "CC": "043", "ZA": "Bedrooms        ", "ZB": "Living Areas    ", "ZC": "                ", "ZD": "                " }, "AVM": {"HG": "Y", "EC": "N", "CG": "Y", "RA": "N", "RH": "N", "RC": "N" }, "OSS": {"DY": "SAT", "TM": "12:27", "BP": "Y", "RG": "Y", "ST": "N", "MD": "H", "DE": "N", "DU": "N", "AT": "999", "LO": "N" }, "FLT": {"AV": "N", "C3": "000" } } },{"HGOM": {"CFG": {"ZUIS": "N", "ZAIS": "Y", "ZBIS": "Y", "ZCIS": "N", "ZDIS": "N", "CF": "N", "PS": "Y", "DG": "W" }, "OOP": {"ST": "N", "CF": "N", "FL": "08", "SN": "N" }, "GSO": {"OP": "A", "SP": "22", "AO": "N" }, "GSS": {"HC": "N", "FS": "N", "GV": "N", "PH": "N", "AT": "L", "AZ": "R" }, "APS": {"AV": "N" }, "ZUO": {"UE": "N" }, "ZAO": {"UE": "Y" }, "ZBO": {"UE": "Y" }, "ZCO": {"UE": "N" }, "ZDO": {"UE": "N" }, "ZUS": {"AE": "N", "MT": "235" }, "ZAS": {"AE": "N", "MT": "235" }, "ZBS": {"AE": "N", "MT": "235" }, "ZCS": {"AE": "N", "MT": "235" }, "ZDS": {"AE": "N", "MT": "235" } } }]
+    Connection Closed
+
+eg. To set Heating temperature to 22 degrees supply a command key and value:
 
     > node Rinnai HeatTemp 22
+    Connected: 192.168.1.3:27847
+    Command sent
+    Connection Closed
+
+### Demo - Simple REST API
+- **RinnaiRest.js** 
+This REST API runs on port 8080 of the host and can be accessed from any browser. It will display the current status of the Module if nothing is specified on the URL, otherwise, it will send the command as specified on the URL.
+
+URL format:
+
+
+
+    http://localhost:8080/[key/value]
+
+eg. To retrieve the current status
+
+    http://localhost:8080/
+
+eg. To set Heating temperature to 22 degrees
+
+    http://localhost:8080/HeatTemp/22
