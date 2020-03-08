@@ -67,7 +67,7 @@ The following is a list of all the command keys and their allowed values.
 |EvapPump|Switch pump on or off|On, Off|
 |EvapFan|Switch fan on or off|On, Off|
 |EvapSpeed|Set Fan Speed|01 - 16|
-
+|EvapOperation|Set to Automatic (ie. schedule) or Manual|Auto, Manual|
 
 
 # How to use

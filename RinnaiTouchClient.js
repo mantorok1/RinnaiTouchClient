@@ -171,6 +171,10 @@ class RinnaiTouchClient extends EventEmmitter {
             EvapSpeed: {
                 keys: ["ECOM", "GSO", "FL"]
                 // values: 01 - 16
+            },
+            EvapOperation: {
+                keys: ["ECOM", "GSO", "OP"],
+                values: {Auto: "A", Manual: "M"}
             }
         };
     }
